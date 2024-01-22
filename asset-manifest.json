@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/.github.io/onusandhan/static/css/main.a61393a5.css",
+    "main.js": "/.github.io/onusandhan/static/js/main.97649409.js",
+    "static/js/787.6e9f7f54.chunk.js": "/.github.io/onusandhan/static/js/787.6e9f7f54.chunk.js",
+    "service-worker.js": "/.github.io/onusandhan/service-worker.js",
+    "index.html": "/.github.io/onusandhan/index.html",
+    "main.a61393a5.css.map": "/.github.io/onusandhan/static/css/main.a61393a5.css.map",
+    "main.97649409.js.map": "/.github.io/onusandhan/static/js/main.97649409.js.map",
+    "787.6e9f7f54.chunk.js.map": "/.github.io/onusandhan/static/js/787.6e9f7f54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a61393a5.css",
+    "static/js/main.97649409.js"
+  ]
+}
