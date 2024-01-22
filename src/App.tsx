@@ -2,10 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { splitWord } from 'split-bengali-word';
 
 import './App.css';
+import { INCORRECT_WORD_LENGTH, TOTAL_RETRY_COUNT, WORD_LENGTH } from './constants';
+import Board from './Board';
+import Header from './Header';
+import Rules from './Rules';
+
+function createEmptyBoard() {
+  return new Array(TOTAL_RETRY_COUNT)
+    .fill(0)
+    .map(() => new Array(WORD_LENGTH).fill(0).map(() => ''));
+}
 
 function App() {
+  const [boardValue, setBoardValue] = useState(createEmptyBoard());
   const [inputWord, setInputWord] = useState('');
   const [suggestedWords, setSuggestedWords] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -39,8 +51,20 @@ function App() {
     return () => clearTimeout(timeoutId);
   }, [inputWord]);
 
+  const onSelect = (word: string) => {
+    setErrorMessage('');
+    const splitted = splitWord(word);
+    if (splitted.length !== WORD_LENGTH) {
+      setErrorMessage(INCORRECT_WORD_LENGTH);
+    }
+  };
+
   return (
     <div className="App">
+      <Header />
+      <div className="line" />
+      <Rules />
+      <Board value={boardValue} />
       <input
         className="input-box"
         type="text"
@@ -48,10 +72,11 @@ function App() {
         value={inputWord}
         onChange={(e) => setInputWord(e.target.value)}
       />
+      {errorMessage ? <div className="error-msg">{errorMessage}</div> : false}
       {suggestedWords.length > 0 ? (
         <div className="suggestion-box">
           {suggestedWords.map((w, idx) => (
-            <div key={idx} className="suggestion-item">
+            <div key={idx} className="suggestion-item" onClick={() => onSelect(w)}>
               {w}
             </div>
           ))}

@@ -1,8 +1,33 @@
 .App {
   text-align: center;
   background-color: black;
-  height: 100vh;
+  min-height: 100vh;
   box-sizing: border-box;
+}
+
+.header {
+  color: white;
+  margin: 0;
+}
+
+.line {
+  width: 100%;
+  border-bottom: 1px solid white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.rules-container{
+  border: 1px solid white;
+  color: white;
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.rules-container ul li {
+  text-align: left;
 }
 
 .input-box {
@@ -34,4 +59,25 @@
 
 .suggestion-item:last-of-type {
   border: none;
+}
+
+.error-msg {
+  color: red;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 60px;
+  height: 50px;
+  background-color: white;
+  margin: 1px;
 }
