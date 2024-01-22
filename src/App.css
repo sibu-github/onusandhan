@@ -3,6 +3,7 @@
   background-color: black;
   min-height: 100vh;
   box-sizing: border-box;
+  padding-bottom: 200px;
 }
 
 .header {
@@ -80,4 +81,33 @@
   height: 50px;
   background-color: white;
   margin: 1px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 24px;
+}
+
+.dotbox-row {
+  display: flex;
+  color: white;
+  align-items: center;
+}
+
+.dotbox {
+  height: 10px;
+  width: 10px;
+}
+.dotbox-green {
+  background-color: green;
+}
+.dotbox-blue {
+  background-color: blue;
+}
+.dotbox-yellow {
+  background-color: yellow;
+}
+.dotbox-grey {
+  background-color: grey;
+}
+.dotbox-red {
+  background-color: red;
 }

@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { splitWord } from 'split-bengali-word';
 
-import './App.css';
 import { INCORRECT_WORD_LENGTH, TOTAL_RETRY_COUNT, WORD_LENGTH } from './constants';
 import Board from './Board';
 import Header from './Header';
 import Rules from './Rules';
+import { MatchResult, MatchType, getMatchResult } from './matcher';
+import { getAnswer } from './constants/answers';
+import './App.css';
 
-function createEmptyBoard() {
+function createEmptyBoard(): MatchResult[][] {
   return new Array(TOTAL_RETRY_COUNT)
     .fill(0)
-    .map(() => new Array(WORD_LENGTH).fill(0).map(() => ''));
+    .map(() => new Array(WORD_LENGTH).fill(0).map(() => ({ str: '', matchType: MatchType.Empty })));
 }
 
 function App() {
-  const [boardValue, setBoardValue] = useState(createEmptyBoard());
+  const [actualWord, setActualWord] = useState('');
+  const [currRow, setCurrRow] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [boardValue, setBoardValue] = useState<MatchResult[][]>(createEmptyBoard());
   const [inputWord, setInputWord] = useState('');
   const [suggestedWords, setSuggestedWords] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    setActualWord(getAnswer());
+  }, []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -51,11 +60,33 @@ function App() {
     return () => clearTimeout(timeoutId);
   }, [inputWord]);
 
+  useEffect(() => {
+    if (currRow === TOTAL_RETRY_COUNT) {
+      setFinished(true);
+      setErrorMessage(`সঠিক শব্দটি হল "${actualWord}"`);
+    }
+  }, [actualWord, currRow]);
+
   const onSelect = (word: string) => {
+    if (finished) {
+      return;
+    }
     setErrorMessage('');
     const splitted = splitWord(word);
     if (splitted.length !== WORD_LENGTH) {
       setErrorMessage(INCORRECT_WORD_LENGTH);
+      return;
+    }
+    const matchResult = getMatchResult(word, actualWord);
+    const updatedValue = boardValue.map((v, i) =>
+      i === currRow ? matchResult : v.map((e) => ({ ...e }))
+    );
+    setBoardValue(updatedValue);
+    setCurrRow((prev) => prev + 1);
+    setInputWord('');
+    if (word === actualWord) {
+      setFinished(true);
+      setErrorMessage('আপনার অনুমান সম্পূর্ণভাবে মিলে গেছে।');
     }
   };
 
